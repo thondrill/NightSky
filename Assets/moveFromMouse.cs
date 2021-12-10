@@ -3,11 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class moveFromMouse : MonoBehaviour
-{ 
+{
+    Vector3 originalPos;
+    Camera cam;
+    Event currentEvent;
+
+    Vector2 mousePos;
+    Vector2 point;
+    Vector3 target;
+
+    float step;
     // Start is called before the first frame update
     void Start()
     {
-        
+        originalPos = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
+        step = 10.0f;
     }
 
     // Update is called once per frame
@@ -19,10 +29,17 @@ public class moveFromMouse : MonoBehaviour
     
     void OnCollisionEnter(Collision starCollision)
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        point = new Vector2();
+
+        target = new Vector3(0.0f, 0.0f, 0.0f);
+        point = new Vector3(mousePos.x, mousePos.y, 0.0f);
+
         if (starCollision.gameObject.tag == "stars")
         {
-            transform.position = new Vector2(Time.deltaTime * mousePos.x * -1, mousePos.y * -1 * Time.deltaTime);
+            //IT'S ONLY WORKING IF IT COLLIDES WITH A STAR OH!
+            transform.position = Vector3.MoveTowards(originalPos, point, step * Time.deltaTime);
+            //transform.position = new Vector2(Time.deltaTime * mousePos.x * -1, mousePos.y * -1 * Time.deltaTime);
         }
     }
 }
