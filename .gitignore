@@ -58,3 +58,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+#temp folder issues
+ echo "Temp/*" >> .gitignore
+
